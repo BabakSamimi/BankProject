@@ -8,3 +8,4 @@ C:\dev\BankProject\BankProject\obj\Debug\BankProject.csproj.GenerateResource.cac
 C:\dev\BankProject\BankProject\obj\Debug\BankProject.csproj.CoreCompileInputs.cache
 C:\dev\BankProject\BankProject\obj\Debug\BankProject.exe
 C:\dev\BankProject\BankProject\obj\Debug\BankProject.pdb
+C:\dev\BankProject\BankProject\obj\Debug\BankProject.LoginView.resources

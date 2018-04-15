@@ -31,13 +31,26 @@ namespace BankProject
             base.Dispose(disposing);
         }
 
+        Button test = new Button
+        {
+            Text = "Button",
+            Name = "Button1",
+            Size = new Size(100, 40),
+        };
+
+
         public Form1()
         {
             InitializeComponent();
 
             BackColor = Color.FromArgb(115, 172, 150);
-            Width = 550;
-            Height = 660;
+            Size = new Size(550, 660);
+
+            
+            Controls.Add(test);
+           
+            
+            
         }
 
         private void Form1_Load(object sender, EventArgs e)
