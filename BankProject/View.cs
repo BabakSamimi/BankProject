@@ -8,17 +8,33 @@ using System.Drawing;
 
 namespace BankProject
 {
-    public abstract class View : Form
+    public class View : Form
     {
-        int height, width;
-        Color background;
-
+        protected List<Control> controlz = new List<Control>();
 
         protected View()
         {
-            height = 550;
-            width = 660;
-            background = Color.FromArgb(115, 172, 150);
+            InitializeComponent();
+        }
+
+        ~View()
+        {
+            controlz.RemoveAll((x) => { return x is Control; });
+        }
+
+
+        protected virtual void InitializeComponent()
+        {
+            SuspendLayout();
+            //FormBorderStyle = FormBorderStyle.None;
+            ClientSize = new Size(750, 660);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            //BackColor = Color.FromArgb(115, 172, 150);
+            BackColor = Color.FromArgb(255,255,255);
+            CenterToScreen();
+
+            ResumeLayout(false);
+
         }
 
 

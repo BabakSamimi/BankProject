@@ -1,0 +1,11 @@
+C:\dev\HighSchoolProject\BankProject\BankProject\bin\Debug\BankProject.exe.config
+C:\dev\HighSchoolProject\BankProject\BankProject\bin\Debug\BankProject.exe
+C:\dev\HighSchoolProject\BankProject\BankProject\bin\Debug\BankProject.pdb
+C:\dev\HighSchoolProject\BankProject\BankProject\obj\Debug\BankClient.csprojResolveAssemblyReference.cache
+C:\dev\HighSchoolProject\BankProject\BankProject\obj\Debug\BankProject.Form1.resources
+C:\dev\HighSchoolProject\BankProject\BankProject\obj\Debug\BankProject.LoginView.resources
+C:\dev\HighSchoolProject\BankProject\BankProject\obj\Debug\BankProject.Properties.Resources.resources
+C:\dev\HighSchoolProject\BankProject\BankProject\obj\Debug\BankClient.csproj.GenerateResource.Cache
+C:\dev\HighSchoolProject\BankProject\BankProject\obj\Debug\BankClient.csproj.CoreCompileInputs.cache
+C:\dev\HighSchoolProject\BankProject\BankProject\obj\Debug\BankProject.exe
+C:\dev\HighSchoolProject\BankProject\BankProject\obj\Debug\BankProject.pdb
