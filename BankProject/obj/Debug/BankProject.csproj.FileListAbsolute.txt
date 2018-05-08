@@ -9,14 +9,3 @@ C:\dev\BankProject\BankProject\obj\Debug\BankProject.csproj.CoreCompileInputs.ca
 C:\dev\BankProject\BankProject\obj\Debug\BankProject.exe
 C:\dev\BankProject\BankProject\obj\Debug\BankProject.pdb
 C:\dev\BankProject\BankProject\obj\Debug\BankProject.LoginView.resources
-C:\dev\HighSchoolProject\BankProject\BankProject\bin\Debug\BankProject.exe.config
-C:\dev\HighSchoolProject\BankProject\BankProject\bin\Debug\BankProject.exe
-C:\dev\HighSchoolProject\BankProject\BankProject\bin\Debug\BankProject.pdb
-C:\dev\HighSchoolProject\BankProject\BankProject\obj\Debug\BankProject.csprojResolveAssemblyReference.cache
-C:\dev\HighSchoolProject\BankProject\BankProject\obj\Debug\BankProject.Form1.resources
-C:\dev\HighSchoolProject\BankProject\BankProject\obj\Debug\BankProject.LoginView.resources
-C:\dev\HighSchoolProject\BankProject\BankProject\obj\Debug\BankProject.Properties.Resources.resources
-C:\dev\HighSchoolProject\BankProject\BankProject\obj\Debug\BankProject.csproj.GenerateResource.Cache
-C:\dev\HighSchoolProject\BankProject\BankProject\obj\Debug\BankProject.csproj.CoreCompileInputs.cache
-C:\dev\HighSchoolProject\BankProject\BankProject\obj\Debug\BankProject.exe
-C:\dev\HighSchoolProject\BankProject\BankProject\obj\Debug\BankProject.pdb

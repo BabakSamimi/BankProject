@@ -26,7 +26,6 @@ namespace BankProject
         protected virtual void InitializeComponent()
         {
             SuspendLayout();
-            //FormBorderStyle = FormBorderStyle.None;
             ClientSize = new Size(750, 660);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             //BackColor = Color.FromArgb(115, 172, 150);
