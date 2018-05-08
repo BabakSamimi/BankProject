@@ -81,6 +81,7 @@ namespace BankProject
             resetPassword.Location = new Point(150, 380);
 
             Controls.AddRange(controlz.ToArray());
+            AddEventHandlers();
         }
 
 
@@ -94,18 +95,53 @@ namespace BankProject
             
         }
         
+        private void AddEventHandlers()
+        {
+            userNameField.Click += (x, y) =>
+            {
+                if (userNameField.Text == "E-mail")
+                    UserNameField.Text = "";
+
+            };
+
+            UserNameField.LostFocus += (x, y) => 
+            {
+                if (userNameField.Text == "")
+                    userNameField.Text = "E-mail";
+            };
+
+            passwordField.Click += (x, y) =>
+            {
+                if (passwordField.Text == "Password" && !passwordField.UseSystemPasswordChar)
+                {
+                    passwordField.UseSystemPasswordChar = true;
+                    passwordField.Text = "";
+                }
+            };
+
+            passwordField.LostFocus += (x, y) =>
+            {
+                if (passwordField.Text == "" && passwordField.UseSystemPasswordChar)
+                {
+                    passwordField.UseSystemPasswordChar = false;
+                    passwordField.Text = "Password";
+                }
+            };
+        }
+       
 
 
         protected override void InitializeComponent()
         {
-            Load += new System.EventHandler(LoginView_Load);
+            Load += new System.EventHandler(LoginView_Load);    
             base.InitializeComponent();
+
         }
 
 
         private void LoginView_Load(object sender, EventArgs e)
         {
-
+            
         }
 
         /* private void InitializeComponent()
