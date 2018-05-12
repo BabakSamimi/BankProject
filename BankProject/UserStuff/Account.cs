@@ -1,4 +1,8 @@
-﻿using System;
+﻿/*
+ * Created by Babak Samimi. 2018.
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +26,9 @@ namespace BankProject.UserStuff
 
         public void Deposit(double c)
         {
+            if (c < 0)
+                throw new ArgumentException("Cannot use a negative value");
+
             Balance += c;
         }
 

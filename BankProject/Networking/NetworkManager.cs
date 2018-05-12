@@ -5,12 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net;
 using System.Net.Sockets;
+using Common;
 
 namespace BankProject.Networking
 {
     class NetworkManager
     {
-        TcpClient client;
-
+        Client client;
     }
 }

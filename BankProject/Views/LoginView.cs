@@ -1,4 +1,8 @@
-﻿using System;
+﻿/*
+ * Created by Babak Samimi. 2018.
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
 using BankProject.Views;
+using BankProject.UserStuff;
 
 namespace BankProject
 {
@@ -21,8 +26,12 @@ namespace BankProject
 
         private readonly Label title;
 
-        public LoginView()
+        User user;
+
+        public LoginView(ref User u)
         {
+            user = u;
+
             userNameField = new TextBox
             {
                 Anchor = AnchorStyles.None,
@@ -146,7 +155,7 @@ namespace BankProject
             registerButton.Click += (x, y) =>
             {
                 Hide();
-                new RegisterView().Show();
+                new RegisterView(user).Show();
             };
             
 

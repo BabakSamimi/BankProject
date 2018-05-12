@@ -5,11 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
-namespace BankProject.UserStuff
+namespace BankServer
 {
     class XmlManager
     {
-        private XmlDocument xmlDocument;
-
+        XmlDocument xmlDocument;
     }
 }

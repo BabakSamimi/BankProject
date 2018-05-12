@@ -10,6 +10,7 @@ namespace BankServer
     {
         static void Main(string[] args)
         {
+
         }
     }
 }

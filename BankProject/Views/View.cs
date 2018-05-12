@@ -6,16 +6,23 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
 using BankProject.Views;
+using BankProject.UserStuff;
 
 namespace BankProject
 {
 
 
-    public class View : Form
+    class View : Form
     {
         protected List<Control> controlz = new List<Control>();
 
         protected View()
+        {
+            Text = "XDDDDDDDDDD";
+            InitializeComponent();
+        }
+
+        protected View(User user)
         {
             InitializeComponent();
         }
@@ -29,11 +36,18 @@ namespace BankProject
         protected virtual void InitializeComponent()
         {
             SuspendLayout();
-            ClientSize = new Size(750, 660);
+
+            ClientSize = new Size(850, 650);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            //BackColor = Color.FromArgb(115, 172, 150);
             BackColor = Color.FromArgb(255,255,255);
+
+            // Prevent rezising of the window
+            //FormBorderStyle = FormBorderStyle.FixedSingle;
+            //MaximizeBox = false;
+            //MinimizeBox = false;
+
             CenterToScreen();
+            
 
             ResumeLayout(false);
 
