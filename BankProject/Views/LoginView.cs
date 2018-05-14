@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using BankProject.Views;
 using BankProject.UserStuff;
+using Common;
 
 namespace BankProject
 {
@@ -26,11 +27,10 @@ namespace BankProject
 
         private readonly Label title;
 
-        User user;
-
-        public LoginView(ref User u)
-        {
-            user = u;
+        public LoginView(ref User user, ref Client client) : base(ref user, ref client)
+        { 
+            
+            clientData.Connect("127.0.0.1", 6060); // when connecting from LoginView, we also create the unique ID here
 
             userNameField = new TextBox
             {
@@ -155,7 +155,7 @@ namespace BankProject
             registerButton.Click += (x, y) =>
             {
                 Hide();
-                new RegisterView(user).Show();
+                new RegisterView(ref userContext, ref clientData).Show();
             };
             
 
@@ -175,50 +175,7 @@ namespace BankProject
         {
             
         }
-
-        /* private void InitializeComponent()
-         {
-             this.SuspendLayout();
-             // 
-             // LoginView
-             // 
-             //this.ClientSize = new System.Drawing.Size(Width, Height);
-             BackColor = Color.FromArgb(115, 172, 150); 
-             this.Name = "LoginView";
-             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-             this.ClientSize = new System.Drawing.Size(750, 660);
-             Location = new Point((Screen.PrimaryScreen.WorkingArea.Width - Width) / 2,
-     (Screen.PrimaryScreen.WorkingArea.Height - Height) / 2);
-
-             this.Load += new System.EventHandler(this.LoginView_Load);
-             this.ResumeLayout(false);
-
-         }*/
-
-
-        /*private void InitializeComponent()
-        {
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.SuspendLayout();
-            // 
-            // richTextBox1
-            // 
-            this.richTextBox1.Location = new System.Drawing.Point(267, 180);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(100, 96);
-            this.richTextBox1.TabIndex = 0;
-            this.richTextBox1.Text = "";
-            // 
-            // LoginView
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.ClientSize = new System.Drawing.Size(644, 711);
-            this.Controls.Add(this.richTextBox1);
-            this.Location = new System.Drawing.Point(0, 0);
-            this.Name = "LoginView";
-            this.ResumeLayout(false);
-
-        }*/
+   
     }
 
 }

@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using BankProject.Views;
 using BankProject.UserStuff;
+using Common;
 
 namespace BankProject
 {
@@ -16,14 +17,20 @@ namespace BankProject
     {
         protected List<Control> controlz = new List<Control>();
 
+        public Client clientData;
+        public User userContext; // This will contain all the data about the User, first name etc
+        
         protected View()
         {
             Text = "XDDDDDDDDDD";
             InitializeComponent();
         }
 
-        protected View(User user)
+        protected View(ref User user, ref Client client)
         {
+            userContext = user;
+            clientData = client;
+
             InitializeComponent();
         }
 
@@ -32,6 +39,10 @@ namespace BankProject
             controlz.RemoveAll((x) => { return x is Control; }); // Redundant?
         }
 
+        public void PassData(object o)
+        {
+
+        }
 
         protected virtual void InitializeComponent()
         {

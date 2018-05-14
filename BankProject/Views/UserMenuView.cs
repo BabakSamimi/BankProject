@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
 using BankProject.UserStuff;
+using Common;
 
 namespace BankProject.Views
 {
     class UserMenuView : View
     {
-        User user;
 
         private readonly TableLayoutPanel menuBar; // We're using a TableLayoutPanel so the "Forms engine" can readjust our controls inside the panel
         private readonly Label greetLabel;
@@ -34,9 +34,8 @@ namespace BankProject.Views
         private readonly Button createAccount;
 
 
-        public UserMenuView()
+        public UserMenuView(ref User user, ref Client client) : base(ref user, ref client)
         {
-            user = new User("Babak", "Samimi", "babak.nti@gmail.com", "9903278290");
 
             menuBar = new TableLayoutPanel
             {

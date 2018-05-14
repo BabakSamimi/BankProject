@@ -56,6 +56,7 @@
     <Compile Include="IView.cs" />
     <Compile Include="UserStuff\Transaction.cs" />
     <Compile Include="Views\IHandler.cs" />
+    <Compile Include="Views\IClient.cs" />
     <Compile Include="Views\LoginView.cs">
       <SubType>Form</SubType>
     </Compile>

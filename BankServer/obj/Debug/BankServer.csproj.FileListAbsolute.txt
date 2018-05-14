@@ -1,0 +1,11 @@
+C:\Users\Babak\Desktop\hs\bankproject\BankServer\obj\Debug\BankServer.csprojResolveAssemblyReference.cache
+C:\Users\Babak\Desktop\hs\bankproject\BankServer\obj\Debug\BankServer.csproj.CoreCompileInputs.cache
+C:\Users\Babak\Desktop\hs\bankproject\BankServer\bin\Debug\BankServer.exe.config
+C:\Users\Babak\Desktop\hs\bankproject\BankServer\bin\Debug\BankServer.exe
+C:\Users\Babak\Desktop\hs\bankproject\BankServer\bin\Debug\BankServer.pdb
+C:\Users\Babak\Desktop\hs\bankproject\BankServer\bin\Debug\Common.dll
+C:\Users\Babak\Desktop\hs\bankproject\BankServer\bin\Debug\Common.pdb
+C:\Users\Babak\Desktop\hs\bankproject\BankServer\bin\Debug\Common.dll.config
+C:\Users\Babak\Desktop\hs\bankproject\BankServer\obj\Debug\BankServer.csproj.CopyComplete
+C:\Users\Babak\Desktop\hs\bankproject\BankServer\obj\Debug\BankServer.exe
+C:\Users\Babak\Desktop\hs\bankproject\BankServer\obj\Debug\BankServer.pdb

@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using BankProject.UserStuff;
 using System.ComponentModel.DataAnnotations;
+using Common;
 
 namespace BankProject.Views
 {
@@ -28,11 +29,8 @@ namespace BankProject.Views
 
         private readonly Button registerButton;
 
-        User user;
-
-        public RegisterView(User u)
+        public RegisterView(ref User user, ref Client client) : base(ref user, ref client)
         {
-            user = u;
 
             userNameField = new TextBox
             {
@@ -176,7 +174,7 @@ namespace BankProject.Views
         
         protected override void AddEventHandlers()
         {
-            
+            User temp = null;
             registerButton.Click += (x, y) => 
             {
                 if(userNameField.Text == string.Empty || passwordField.Text == string.Empty) // if the fields are not correctly filled out, warn the user
@@ -189,10 +187,10 @@ namespace BankProject.Views
                     {
                         try
                         {
-                            user = new User(
-                                userNameField.Text.Substring(0,
-                                userNameField.Text.IndexOf(" ")),
-                                userNameField.Text.Substring(userNameField.Text.IndexOf(" ") + 1), scNumberField.Text);
+                            temp = new User(
+                                userNameField.Text.Substring(0,  userNameField.Text.IndexOf(" ")), // Gets the first name 
+                                userNameField.Text.Substring(userNameField.Text.IndexOf(" ") + 1), // Gets the last name
+                                scNumberField.Text); // Gets Social Security Number
                         }
 
                         catch
@@ -201,17 +199,19 @@ namespace BankProject.Views
                             return;
                         }
 
-                        MessageBox.Show(user.FirstName + " " + user.LastName); // Debug
+                        MessageBox.Show(temp.FirstName + " " + temp.LastName); // Debug
+                        userContext = temp;
                         
                     }
                     else // if the mail field was filled, use the mail constructor
                     {
                         try
                         {
-                            /*user = new User(
-                                userNameField.Text.Substring(0,
-                                userNameField.Text.IndexOf(" ")),
-                                userNameField.Text.Substring(userNameField.Text.IndexOf(" ") + 1), emailField.Text);*/
+                            temp = new User(
+                                userNameField.Text.Substring(0, userNameField.Text.IndexOf(" ")), // Gets the first name
+                                userNameField.Text.Substring(userNameField.Text.IndexOf(" ") + 1), // Gets the last name
+                                emailField.Text, // Gets email
+                                scNumberField.Text); // Gets Social Security Number
                         }
 
                         catch
@@ -220,13 +220,18 @@ namespace BankProject.Views
                             return;
                         }
 
-                        MessageBox.Show(user.FirstName + " " + user.LastName + "\n" + emailField.Text); // Debug
+                        MessageBox.Show(temp.FirstName + " " + temp.LastName + "\n" + emailField.Text); // Debug
+                        userContext = temp;
                     }
+
+                    Hide();
+                    new LoginView(ref userContext, ref clientData).Show();
                 }
 
                     
             };
 
+            // Lambdas for placeholders
             scNumberField.Click += (x, y) =>
             {
                 if(scNumberField.Text == "YYMMDDXXXX")
