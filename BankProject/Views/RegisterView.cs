@@ -4,7 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -226,7 +225,7 @@ namespace BankProject.Views
                         MessageBox.Show(temp.FirstName + " " + temp.LastName + "\n" + emailField.Text); // Debug
                         userContext = temp;
                     }
-
+                    // Serialize our registration data and send it to the server
                     IFormatter formatter = new BinaryFormatter();
                     MemoryStream stream = new MemoryStream();
                     formatter.Serialize(stream, userContext);

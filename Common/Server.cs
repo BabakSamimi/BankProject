@@ -15,7 +15,7 @@ namespace Common
 {
     public class Server
     {
-        private Dictionary<Socket, Client> clients;
+        private List<Client> clients;
         private IPAddress address;
         private short port;
         private TcpListener tcpListener;
@@ -36,7 +36,7 @@ namespace Common
         }
 
         private object client_lock = new object();
-        public Dictionary<Socket, Client> GetClients
+        public List<Client> GetClients
         {
             get
             {
@@ -55,7 +55,7 @@ namespace Common
             this.address = IPAddress.Parse(address);
             this.port = port;
 
-            clients = new Dictionary<Socket, Client>();
+            clients = new List<Client>();
             tcpListener = new TcpListener(this.address, this.port);
 
         }
@@ -72,18 +72,20 @@ namespace Common
                 while (Running)
                 {
 
-                    //Client temp;
-                    //byte[] temp_id;
-                    //Socket cliSocket = null;
-
                     try
                     {
                         Socket cliSocket = tcpListener.AcceptSocket(); // Await connection
                         byte[] temp_id = new byte[4];
                         cliSocket.Receive(temp_id);
                         // Create a new client object and set its received ID.
-                        Client temp = new Client(BitConverter.ToInt32(temp_id, 0));
-                        GetClients.Add(cliSocket, temp);
+                        Client temp = new Client(BitConverter.ToInt32(temp_id, 0))
+                        {
+                            socket = cliSocket
+                        };
+
+                        temp.socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.KeepAlive, true); // Keep socket alive
+                        temp.socket.ReceiveTimeout = 2500; // This indicates that the server will wait 2,5 seconds when waiting for data to be received from the client
+                        GetClients.Add(temp);
 
                         Debug.WriteLine("Client id: " + temp.Id);
                         Console.WriteLine(">> Client sucessfully connected with the ID: " + temp.Id);
@@ -98,8 +100,10 @@ namespace Common
 
             }).Start();
 
-            new Thread(new ThreadStart(Update)).Start();
-            
+            Thread.Sleep(1000);
+            UpdateClients();
+
+ 
         }
 
         public void Stop()
@@ -108,9 +112,9 @@ namespace Common
             tcpListener.Stop();
         }
 
-        private bool IsConnected(Socket s)
+        private bool IsConnected(Client cli)
         {
-            if (s.Poll(1000, SelectMode.SelectRead) && (s.Available == 0))
+            if (cli.socket.Poll(1000, SelectMode.SelectRead) && (cli.socket.Available == 0))
             {
                 return false;
             }
@@ -118,24 +122,48 @@ namespace Common
                 return true;
         }
        
-        private void Update()
+        public void UpdateClients()
         {
-            byte[] data = new byte[1024];
-
-            while (Running)
+            new Thread(() =>
             {
-                Thread.Sleep(1000);
-
-                foreach (KeyValuePair<Socket, Client> cli in GetClients)
+                while (Running)
                 {
+                    byte[] buffer;
 
-                    if (IsConnected(cli.Key))
+                    // Check if there are any data to receive from clients
+                    foreach (Client cli in GetClients)
                     {
-                        Debug.WriteLine(cli.Value.Id + " is still connected");
+                        buffer = new byte[1024];
+                        if (IsConnected(cli))
+                        {
+                            try
+                            {
+                                cli.socket.Receive(buffer);
+                                
+
+                                if (buffer[buffer.Length] == 1)
+                                {
+
+                                }
+                            }
+                            catch { } // no data to fetch
+
+                            
+                        }
+                        Thread.Sleep(100); // Wait a little before we move on to next iteration
                     }
                 }
-            }
+
+            }).Start();
+            
         }
+
+        /*
+         * ID 
+         * 
+         * 
+         * 
+         */
 
         private void SendUserData()
         {
@@ -146,9 +174,9 @@ namespace Common
         {
             Console.WriteLine(clients.Count + " clients connected.");
 
-            foreach (KeyValuePair<Socket, Client> cli in GetClients)
+            foreach (Client cli in GetClients)
             {
-                Console.WriteLine(">> ID: " + cli.Value.Id);
+                Console.WriteLine(">> ID: " + cli.Id);
             }
         }
 

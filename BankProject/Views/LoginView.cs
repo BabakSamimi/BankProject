@@ -30,7 +30,7 @@ namespace BankProject
         public LoginView(ref User user, ref Client client) : base(ref user, ref client)
         { 
             
-            clientData.Connect("127.0.0.1", 6060); // when connecting from LoginView, we also create the unique ID here
+            clientData.Connect("127.0.0.1", 6060); // when connecting from LoginView, we also create the unique session ID here
 
             userNameField = new TextBox
             {
@@ -120,7 +120,7 @@ namespace BankProject
         protected override void AddEventHandlers()
         {
 
-            // These next four eventhandlers will adjust depending on the current input, just a gimmick
+            // These next four eventhandlers will adjust the fields depending on the current input, just a gimmick
             userNameField.Click += (x, y) =>
             {
                 if (userNameField.Text == "E-mail")
@@ -152,12 +152,17 @@ namespace BankProject
                 }
             };
 
+            // Takes you to the register page
             registerButton.Click += (x, y) =>
             {
                 Hide();
                 new RegisterView(ref userContext, ref clientData).Show();
             };
-            
+
+            logInButton.Click += (x, y) =>
+            {
+
+            };
 
         }
        

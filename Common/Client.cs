@@ -43,6 +43,7 @@ namespace Common
 
         public Client(int id)
         {
+            tcpClient = new TcpClient();
             Id = id;
 
         }
@@ -65,7 +66,6 @@ namespace Common
                     session.CreateId();
                     stream.Write(BitConverter.GetBytes(session.Id), 0, 4); // Send the server the clients session ID
                     Debug.WriteLine("Client id from client side: " + session.Id);
-                    stream.Close();
                 }
                 catch
                 {
@@ -80,13 +80,12 @@ namespace Common
                 Running = false;
             }
 
-           
-
         }
 
         public void Disconnect()
         {
             Running = false;
+            stream.Close();
             tcpClient.Close();
         }
 
@@ -105,13 +104,19 @@ namespace Common
 
         public void SendRegistrationData(byte[] userData)
         {
-            stream = tcpClient.GetStream();
             byte[] dataMessage = new byte[userData.Length + 1];
-            dataMessage[dataMessage.Length] = 2;
+            dataMessage[dataMessage.Length] = 1; // value 1 indicates that the data sent from the client is registration data, this is so the server can identify different types of data packets
+
+            /*byte[] sessionId = BitConverter.GetBytes(session.Id);
+
+            for(int i = 0; i < 4; ++i)
+            {
+                dataMessage[userData.Length + i] = sessionId[i]; // Fill the last 4 spots with the ID, so the server can identify whom it was.
+            }
+            */
             try
             {
-                stream.Write(dataMessage, 0, dataMessage.Length);
-                stream.Close();
+                stream.Write(userData, 0, userData.Length);
             }
             catch
             {
