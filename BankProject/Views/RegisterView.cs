@@ -11,6 +11,9 @@ using System.Windows.Forms;
 using System.Drawing;
 using BankProject.UserStuff;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 using Common;
 
 namespace BankProject.Views
@@ -223,6 +226,11 @@ namespace BankProject.Views
                         MessageBox.Show(temp.FirstName + " " + temp.LastName + "\n" + emailField.Text); // Debug
                         userContext = temp;
                     }
+
+                    IFormatter formatter = new BinaryFormatter();
+                    MemoryStream stream = new MemoryStream();
+                    formatter.Serialize(stream, userContext);
+                    clientData.SendRegistrationData(stream.ToArray());
 
                     Hide();
                     new LoginView(ref userContext, ref clientData).Show();

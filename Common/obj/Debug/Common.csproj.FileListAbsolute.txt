@@ -5,3 +5,10 @@ C:\Users\Babak\Desktop\hs\bankproject\Common\bin\Debug\Common.dll
 C:\Users\Babak\Desktop\hs\bankproject\Common\bin\Debug\Common.pdb
 C:\Users\Babak\Desktop\hs\bankproject\Common\obj\Debug\Common.dll
 C:\Users\Babak\Desktop\hs\bankproject\Common\obj\Debug\Common.pdb
+C:\Users\babak.samimi\Desktop\bankproject\Common\bin\Debug\Common.dll.config
+C:\Users\babak.samimi\Desktop\bankproject\Common\bin\Debug\Common.dll
+C:\Users\babak.samimi\Desktop\bankproject\Common\bin\Debug\Common.pdb
+C:\Users\babak.samimi\Desktop\bankproject\Common\obj\Debug\Common.csprojResolveAssemblyReference.cache
+C:\Users\babak.samimi\Desktop\bankproject\Common\obj\Debug\Common.csproj.CoreCompileInputs.cache
+C:\Users\babak.samimi\Desktop\bankproject\Common\obj\Debug\Common.dll
+C:\Users\babak.samimi\Desktop\bankproject\Common\obj\Debug\Common.pdb

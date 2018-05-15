@@ -24,3 +24,17 @@ C:\Users\Babak\Desktop\hs\bankproject\BankProject\bin\Debug\Common.dll.config
 C:\Users\Babak\Desktop\hs\bankproject\BankProject\obj\Debug\BankProject.csproj.CopyComplete
 C:\Users\Babak\Desktop\hs\bankproject\BankProject\obj\Debug\BankProject.exe
 C:\Users\Babak\Desktop\hs\bankproject\BankProject\obj\Debug\BankProject.pdb
+C:\Users\babak.samimi\Desktop\bankproject\BankProject\bin\Debug\BankProject.exe.config
+C:\Users\babak.samimi\Desktop\bankproject\BankProject\bin\Debug\BankProject.exe
+C:\Users\babak.samimi\Desktop\bankproject\BankProject\bin\Debug\BankProject.pdb
+C:\Users\babak.samimi\Desktop\bankproject\BankProject\bin\Debug\Common.dll
+C:\Users\babak.samimi\Desktop\bankproject\BankProject\bin\Debug\Common.pdb
+C:\Users\babak.samimi\Desktop\bankproject\BankProject\bin\Debug\Common.dll.config
+C:\Users\babak.samimi\Desktop\bankproject\BankProject\obj\Debug\BankProject.csprojResolveAssemblyReference.cache
+C:\Users\babak.samimi\Desktop\bankproject\BankProject\obj\Debug\BankProject.Form1.resources
+C:\Users\babak.samimi\Desktop\bankproject\BankProject\obj\Debug\BankProject.LoginView.resources
+C:\Users\babak.samimi\Desktop\bankproject\BankProject\obj\Debug\BankProject.Properties.Resources.resources
+C:\Users\babak.samimi\Desktop\bankproject\BankProject\obj\Debug\BankProject.csproj.GenerateResource.Cache
+C:\Users\babak.samimi\Desktop\bankproject\BankProject\obj\Debug\BankProject.csproj.CoreCompileInputs.cache
+C:\Users\babak.samimi\Desktop\bankproject\BankProject\obj\Debug\BankProject.exe
+C:\Users\babak.samimi\Desktop\bankproject\BankProject\obj\Debug\BankProject.pdb
