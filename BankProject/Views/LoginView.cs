@@ -28,9 +28,11 @@ namespace BankProject
         private readonly Label title;
 
         public LoginView(ref User user, ref Client client) : base(ref user, ref client)
-        { 
-            
-            clientData.Connect("127.0.0.1", 6060); // when connecting from LoginView, we also create the unique session ID here
+        {
+            if (!client.Running)
+            {
+                clientData.Connect("127.0.0.1", 6060); // when connecting from LoginView, we also create the unique session ID here
+            }
 
             userNameField = new TextBox
             {

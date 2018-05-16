@@ -102,21 +102,16 @@ namespace Common
             }
         }
 
-        public void SendRegistrationData(byte[] userData)
+        public void SendData(byte[] userData)
         {
-            byte[] dataMessage = new byte[userData.Length + 1];
-            dataMessage[dataMessage.Length] = 1; // value 1 indicates that the data sent from the client is registration data, this is so the server can identify different types of data packets
-
-            /*byte[] sessionId = BitConverter.GetBytes(session.Id);
-
-            for(int i = 0; i < 4; ++i)
-            {
-                dataMessage[userData.Length + i] = sessionId[i]; // Fill the last 4 spots with the ID, so the server can identify whom it was.
-            }
-            */
+            byte[] dataMessage = new byte[userData.Length + 1]; // Add 1 extra byte to make room for our custom value
+            userData.CopyTo(dataMessage, 1); 
+            userData[0] = 1; // value 1 indicates that the data sent from the client is registration data, this is so the server can identify different types of data packets
+            
             try
             {
                 stream.Write(userData, 0, userData.Length);
+                
             }
             catch
             {

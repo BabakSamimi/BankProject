@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace BankProject.UserStuff
 {
+    [Serializable]
     class Account : IAccount
     {
         public double Balance { get; set; }

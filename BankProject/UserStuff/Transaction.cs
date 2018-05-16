@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace BankProject.UserStuff
 {
+    [Serializable]
     class Transaction
     {
         private string from;

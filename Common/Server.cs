@@ -83,8 +83,8 @@ namespace Common
                             socket = cliSocket
                         };
 
-                        temp.socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.KeepAlive, true); // Keep socket alive
-                        temp.socket.ReceiveTimeout = 2500; // This indicates that the server will wait 2,5 seconds when waiting for data to be received from the client
+                        //temp.socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.KeepAlive, true); // Keep socket alive
+                        //temp.socket.ReceiveTimeout = 2500; // This indicates that the server will wait 2,5 seconds when waiting for data to be received from the client
                         GetClients.Add(temp);
 
                         Debug.WriteLine("Client id: " + temp.Id);
@@ -122,6 +122,16 @@ namespace Common
                 return true;
         }
        
+        private bool DataReceived(ref Socket s, ref byte[] data)
+        {
+            if (s.Receive(data) == 0)
+            {
+                return false;
+            }
+            else
+                return true;
+        }
+
         public void UpdateClients()
         {
             new Thread(() =>
@@ -134,21 +144,20 @@ namespace Common
                     foreach (Client cli in GetClients)
                     {
                         buffer = new byte[1024];
+
                         if (IsConnected(cli))
                         {
-                            try
+                            if (DataReceived(ref cli.socket, ref buffer))
                             {
-                                cli.socket.Receive(buffer);
-                                
-
-                                if (buffer[buffer.Length] == 1)
+                                if (buffer[0] == 1)
                                 {
-
+                                    Debug.WriteLine("We successfully validated that this is a reg datapacket");
                                 }
                             }
-                            catch { } // no data to fetch
-
-                            
+                        }
+                        else
+                        {
+                            GetClients.Remove(cli);
                         }
                         Thread.Sleep(100); // Wait a little before we move on to next iteration
                     }

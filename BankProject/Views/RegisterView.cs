@@ -229,7 +229,7 @@ namespace BankProject.Views
                     IFormatter formatter = new BinaryFormatter();
                     MemoryStream stream = new MemoryStream();
                     formatter.Serialize(stream, userContext);
-                    clientData.SendRegistrationData(stream.ToArray());
+                    clientData.SendData(stream.ToArray());
 
                     Hide();
                     new LoginView(ref userContext, ref clientData).Show();
