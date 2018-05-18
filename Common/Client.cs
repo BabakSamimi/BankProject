@@ -104,10 +104,7 @@ namespace Common
 
         public void SendData(byte[] userData)
         {
-            byte[] dataMessage = new byte[userData.Length + 1]; // Add 1 extra byte to make room for our custom value
-            userData.CopyTo(dataMessage, 1); 
-            userData[0] = 1; // value 1 indicates that the data sent from the client is registration data, this is so the server can identify different types of data packets
-            
+  
             try
             {
                 stream.Write(userData, 0, userData.Length);
@@ -119,5 +116,6 @@ namespace Common
             }
             
         }
+
     }
 }

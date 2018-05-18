@@ -7,9 +7,12 @@ using System.Net.Sockets;
 using System.Net;
 using System.Threading;
 using System.Diagnostics;
+using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using System.Xml;
 using System.Collections.Concurrent;
+
 
 namespace Common
 {
@@ -132,6 +135,26 @@ namespace Common
                 return true;
         }
 
+        private void CreateXmlDocument(string xml, string filePath)
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xml);
+
+            using (XmlWriter xw = doc.CreateNavigator().AppendChild())
+            {
+
+            }
+
+            XmlWriterSettings settings = new XmlWriterSettings
+            {
+                Indent = true,
+            };
+
+            doc.
+
+
+        }
+
         public void UpdateClients()
         {
             new Thread(() =>
@@ -145,14 +168,22 @@ namespace Common
                     {
                         buffer = new byte[1024];
 
-                        if (IsConnected(cli))
+                        if (IsConnected(cli) && DataReceived(ref cli.socket, ref buffer))
                         {
-                            if (DataReceived(ref cli.socket, ref buffer))
+                            Console.WriteLine("Received packet from: " + cli.Id + " with the packet ID: " + buffer[0]);
+
+                            if (buffer[0] == 1)
                             {
-                                if (buffer[0] == 1)
+                                byte[] userXml = new byte[buffer.Length - 1];
+                                
+                                // buffer 100, user 99
+                                for(int i = 1; i < userXml.Length; i++)
                                 {
-                                    Debug.WriteLine("We successfully validated that this is a reg datapacket");
+                                    userXml[i - 1] = buffer[i];
                                 }
+
+                                string xmlInfo = Encoding.UTF8.GetString(userXml);
+                                CreateXmlDocument(xmlInfo, "/UserData/");
                             }
                         }
                         else

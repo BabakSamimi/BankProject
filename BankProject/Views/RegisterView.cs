@@ -225,11 +225,14 @@ namespace BankProject.Views
                         MessageBox.Show(temp.FirstName + " " + temp.LastName + "\n" + emailField.Text); // Debug
                         userContext = temp;
                     }
-                    // Serialize our registration data and send it to the server
-                    IFormatter formatter = new BinaryFormatter();
-                    MemoryStream stream = new MemoryStream();
-                    formatter.Serialize(stream, userContext);
-                    clientData.SendData(stream.ToArray());
+
+                    string info = userContext.CreateXmlObject();
+                    byte[] stringBuffer = Encoding.UTF8.GetBytes(info);
+                    byte[] buffer = new byte[stringBuffer.Length + 1];
+                    stringBuffer.CopyTo(buffer, 1);
+                    buffer[0] = 1;
+
+                    clientData.SendData(buffer);
 
                     Hide();
                     new LoginView(ref userContext, ref clientData).Show();
