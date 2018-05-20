@@ -11,6 +11,8 @@ using System.Windows.Forms;
 using System.Drawing;
 using BankProject.Views;
 using BankProject.UserStuff;
+using System.Xml;
+using System.Diagnostics;
 using Common;
 
 namespace BankProject
@@ -18,14 +20,12 @@ namespace BankProject
     class LoginView : View
     {
 
-        private readonly TextBox userNameField;
+        private readonly TextBox ssnField;
         private readonly TextBox passwordField;
 
         private readonly Button logInButton;
         private readonly Button resetPasswordButton;
         private readonly Button registerButton;
-
-        private readonly Label title;
 
         public LoginView(ref User user, ref Client client) : base(ref user, ref client)
         {
@@ -34,11 +34,11 @@ namespace BankProject
                 clientData.Connect("127.0.0.1", 6060); // when connecting from LoginView, we also create the unique session ID here
             }
 
-            userNameField = new TextBox
+            ssnField = new TextBox
             {
                 Anchor = AnchorStyles.None,
                 Size = new Size(450, 30),
-                Text = "E-mail",
+                Text = "SSN (YYMMDDXXXX)",
                 Font = new Font(FontFamily.GenericSansSerif, 12.0F, FontStyle.Regular),
                 BorderStyle = BorderStyle.FixedSingle,
                 Enabled = true,
@@ -91,14 +91,13 @@ namespace BankProject
 
             };
 
-
-            controlz.Add(userNameField);
+            controlz.Add(ssnField);
             controlz.Add(passwordField);
             controlz.Add(logInButton);
             controlz.Add(resetPasswordButton);
             controlz.Add(registerButton);
 
-            userNameField.Location = new Point(150, 250);
+            ssnField.Location = new Point(150, 250);
             passwordField.Location = new Point(150, 300);
             logInButton.Location = new Point(150, 340);
             resetPasswordButton.Location = new Point(150, 380);
@@ -107,7 +106,6 @@ namespace BankProject
             Controls.AddRange(controlz.ToArray());
             AddEventHandlers();
         }
-
 
         public void LogIn(Object sender, System.EventArgs e)
         {
@@ -123,20 +121,20 @@ namespace BankProject
         {
 
             // These next four eventhandlers will adjust the fields depending on the current input, just a gimmick
-            userNameField.Click += (x, y) =>
+            ssnField.Click += (x, y) =>
             {
-                if (userNameField.Text == "E-mail")
-                    userNameField.Text = "";
+                if (ssnField.Text == "SSN (YYMMDDXXXX)")
+                    ssnField.Text = "";
 
             };
 
-            userNameField.LostFocus += (x, y) => 
+            ssnField.LostFocus += (x, y) => 
             {
-                if (userNameField.Text == "")
-                    userNameField.Text = "E-mail";
+                if (ssnField.Text == "")
+                    ssnField.Text = "SSN(YYMMDDXXXX)";
             };
 
-            passwordField.Click += (x, y) =>
+            passwordField.GotFocus += (x, y) =>
             {
                 if (passwordField.Text == "Password" && !passwordField.UseSystemPasswordChar)
                 {
@@ -163,9 +161,40 @@ namespace BankProject
 
             logInButton.Click += (x, y) =>
             {
+                byte[] data;
 
+                if(ssnField.Text.Length == 10 && ssnField.Text.All(Char.IsDigit) && passwordField.Text.Length > 0)
+                {
+                    data = new byte[ssnField.Text.Length + passwordField.Text.Length + 1];
+                    data[0] = 2; // Value 2 is used for Log in
+                    // Copy the relevant parts of the array
+                    Array.Copy(Encoding.UTF8.GetBytes(ssnField.Text), 0, data, 1, 10);
+                    Array.Copy(Encoding.UTF8.GetBytes(passwordField.Text), 0, data, 11, passwordField.Text.Length);
+                    clientData.SendData(data);
+
+                    data = new byte[1024];
+                    int messageLength = clientData.ReceiveData(ref data); // Response data
+
+                    if (data[0] == 49) // First value being 49 means that the credentials sent to the server was correct
+                    {
+                        byte[] buffer = new byte[messageLength - 1];
+                        Array.Copy(data, 1, buffer, 0, messageLength - 1);
+                        userContext = User.CreateObjectFromXml(buffer); // Create a new User-object
+                        Debug.WriteLine(userContext.FirstName + " " + userContext.LastName);
+
+                        Hide();
+                        new UserMenuView(ref userContext, ref clientData).Show();
+                    }
+                    else if(data[0] == 50)
+                    {
+                        MessageBox.Show("Wrong password.");
+                    }
+                    else if(data[0] == 51)
+                    {
+                        MessageBox.Show("That SSN doesn't exist in the database.");
+                    }
+                }
             };
-
         }
        
 

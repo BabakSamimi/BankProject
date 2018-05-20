@@ -39,6 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Client.cs" />
+    <Compile Include="Crypto.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="Session.cs" />
   </ItemGroup>

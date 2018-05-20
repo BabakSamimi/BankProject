@@ -8,20 +8,22 @@ namespace BankProject.UserStuff
 {
     class Transaction
     {
-        private string from;
-        private string to;
-        private string amount;
+        public DateTime Date { get; private set; }
+        public string From { get; private set; }
+        public string To { get; private set; }
+        public string Amount { get; private set; }
 
         public Transaction()
         {
 
         }
 
-        public Transaction(string f, string t, string a)
+        public Transaction(string from, string to, string amount, DateTime date)
         {
-            from = f;
-            to = t;
-            amount = a;
+            From = from;
+            To = to;
+            Amount = amount;
+            Date = date;
         }
 
     }

@@ -13,15 +13,17 @@ namespace BankProject.UserStuff
     class Account : IAccount
     {
         public double Balance { get; set; }
+        public string AccountID { get; protected set; }
 
         public Account()
         {
-
+            Balance = 0.0;
         }
 
-        public Account(double balance)
+        public Account(double balance, string id)
         {
             Balance = balance;
+            AccountID = id;
         }
 
         public void Deposit(double c)
@@ -32,7 +34,7 @@ namespace BankProject.UserStuff
             Balance += c;
         }
 
-        public void Withdraw(double c)
+        public virtual void Withdraw(double c)
         {
             if (c < 0)
                 throw new ArgumentException("Cannot use a negative value");

@@ -54,9 +54,9 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserStuff\SalaryAccount.cs" />
+    <Compile Include="UserStuff\SavingAccount.cs" />
     <Compile Include="UserStuff\Transaction.cs" />
-    <Compile Include="Views\IHandler.cs" />
-    <Compile Include="Views\IClient.cs" />
     <Compile Include="Views\LoginView.cs">
       <SubType>Form</SubType>
     </Compile>

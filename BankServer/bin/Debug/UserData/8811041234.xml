@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<User>
+  <UserInfo>
+    <FirstName>hello</FirstName>
+    <LastName>there</LastName>
+    <Email>NaN</Email>
+    <SocialSecurityNumber>8811041234</SocialSecurityNumber>
+    <Password>9F86D081884C7D659A2FEAA0C55AD015A3BF4F1B2B0B822CD15D6C15B0F00A08</Password>
+  </UserInfo>
+  <Accounts>
+    <SalaryAccounts>
+      <SalaryAccount ID="1">0</SalaryAccount>
+    </SalaryAccounts>
+    <SavingsAccounts>
+      <SavingsAccount ID="1">0</SavingsAccount>
+    </SavingsAccounts>
+  </Accounts>
+  <Transactions>
+    <Transaction Date="2018-05-20 19:24:42">
+      <From>John Doe</From>
+      <To>Mary Doe</To>
+      <Amount>$100</Amount>
+    </Transaction>
+  </Transactions>
+</User>

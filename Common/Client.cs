@@ -89,19 +89,6 @@ namespace Common
             tcpClient.Close();
         }
 
-        private void PermanentStream()
-        {
-            while(Running)
-            {
-                try
-                {
-                    stream = tcpClient.GetStream();
-                    socket.Send(new byte[1]);
-                }
-                catch { }
-            }
-        }
-
         public void SendData(byte[] userData)
         {
   
@@ -111,10 +98,22 @@ namespace Common
                 
             }
             catch
-            {
-                
-            }
+            { }
             
+        }
+
+        public int ReceiveData(ref byte[] userData)
+        {
+            int length;
+
+            try
+            {
+                length = stream.Read(userData, 0, userData.Length);
+                return length; // Return the length of the datapackage
+
+            }
+            catch { return 0; }
+
         }
 
     }

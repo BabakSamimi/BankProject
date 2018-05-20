@@ -32,8 +32,17 @@ namespace BankServer
                             server.Stop();
                             break;
 
+
                         default:
-                            Console.WriteLine("Command not recognizable");
+                            if (command.Contains("remove"))
+                            {
+                                server.RemoveCustomer(command.Substring(7));
+                            }
+                            else
+                            {
+                                Console.WriteLine(">> Command not recognizable");
+                            }
+
                             continue;
                     }
                 }

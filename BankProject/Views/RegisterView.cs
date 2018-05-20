@@ -22,14 +22,16 @@ namespace BankProject.Views
         private readonly TextBox userNameField;
         private readonly TextBox passwordField;
         private readonly TextBox emailField;
-        private readonly TextBox scNumberField; // Social Security Number (personnummer)
+        private readonly TextBox SSNumberField; // Social Security Number (personnummer)
 
         private readonly Label userLabel;
         private readonly Label passwordLabel;
         private readonly Label emailLabel;
-        private readonly Label scNumberLabel;
+        private readonly Label SSNLabel;
+        
 
         private readonly Button registerButton;
+        private readonly Button goBackButton;
 
         public RegisterView(ref User user, ref Client client) : base(ref user, ref client)
         {
@@ -43,7 +45,7 @@ namespace BankProject.Views
                 BorderStyle = BorderStyle.FixedSingle,
                 Enabled = true,
                 Multiline = false,
-                TabIndex = 0,
+                TabIndex = 1,
 
             };
 
@@ -58,7 +60,7 @@ namespace BankProject.Views
                 BorderStyle = BorderStyle.FixedSingle,
                 Enabled = true,
                 Multiline = false,
-                TabIndex = 1,
+                TabIndex = 3,
 
             };
 
@@ -72,12 +74,12 @@ namespace BankProject.Views
                 BorderStyle = BorderStyle.FixedSingle,
                 Enabled = true,
                 Multiline = false,
-                TabIndex = 2,
+                TabIndex = 0,
 
             };
 
             
-            scNumberField = new TextBox
+            SSNumberField = new TextBox
             {
                 Anchor = AnchorStyles.None,
                 Size = new Size(450, 30),
@@ -87,7 +89,7 @@ namespace BankProject.Views
                 BorderStyle = BorderStyle.FixedSingle,
                 Enabled = true,
                 Multiline = false,
-                TabIndex = 3,
+                TabIndex = 2,
             };
 
             passwordLabel = new Label
@@ -123,7 +125,7 @@ namespace BankProject.Views
 
             };
 
-            scNumberLabel = new Label
+            SSNLabel = new Label
             {
                 Anchor = AnchorStyles.None,
                 Text = "Social Number:",
@@ -139,20 +141,30 @@ namespace BankProject.Views
                 Size = new Size(100, 30),
                 Text = "Register",
                 Enabled = true,
-                TabIndex = 3,
+                TabIndex = 4,
+            };
+
+            goBackButton = new Button
+            {
+                Anchor = AnchorStyles.None,
+                Size = new Size(100, 30),
+                Text = "Go back",
+                Enabled = true,
+                TabIndex = 5,
             };
 
             controlz.Add(userNameField);
             controlz.Add(passwordField);
             controlz.Add(emailField);
-            controlz.Add(scNumberField);
+            controlz.Add(SSNumberField);
 
             controlz.Add(userLabel);
             controlz.Add(passwordLabel);
             controlz.Add(emailLabel);
-            controlz.Add(scNumberLabel);
+            controlz.Add(SSNLabel);
 
             controlz.Add(registerButton);
+            controlz.Add(goBackButton);
 
             // 20 between label x and field x, 40 between label x and field y
             emailLabel.Location = new Point(146, 200);
@@ -161,102 +173,148 @@ namespace BankProject.Views
             userLabel.Location = new Point(146, 260);
             userNameField.Location = new Point(150, 280);
 
-            scNumberLabel.Location = new Point(146, 320);
-            scNumberField.Location = new Point(150, 340);
+            SSNLabel.Location = new Point(146, 320);
+            SSNumberField.Location = new Point(150, 340);
 
             passwordLabel.Location = new Point(146, 380);
             passwordField.Location = new Point(150, 400);
 
             registerButton.Location = new Point(150, 440);
+            goBackButton.Location = new Point(150, 480);
 
             Controls.AddRange(controlz.ToArray());
             AddEventHandlers();
         }
         
-        
+        private bool SSNIsUnique(ref byte[] buffer)
+        {
+            buffer = new byte[SSNumberField.Text.Length + 1]; 
+            byte[] temp = new byte[SSNumberField.Text.Length];
+            temp = Encoding.UTF8.GetBytes(SSNumberField.Text);
+
+            for(int i = 1; i < temp.Length; ++i)
+            {
+                buffer[i] = temp[i - 1];
+            }
+
+            buffer[0] = 255;
+
+            clientData.SendData(buffer);
+
+            buffer = new byte[1];
+
+            clientData.ReceiveData(ref buffer);
+
+            if (buffer[0] == 254)
+            {
+                return false;
+            }
+
+            return true;
+
+        }
+
         protected override void AddEventHandlers()
         {
             User temp = null;
+            byte[] buffer;
+
+            // Go back to Login page
+            goBackButton.Click += (x, y) =>
+            {
+                Hide();
+                new LoginView(ref userContext, ref clientData).Show();
+            };
+
             registerButton.Click += (x, y) => 
             {
-                if(userNameField.Text == string.Empty || passwordField.Text == string.Empty) // if the fields are not correctly filled out, warn the user
+
+                if (userNameField.Text == string.Empty || passwordField.Text == string.Empty || (SSNumberField.Text.Length < 10)) // if the fields are not correctly filled out, warn the user
                 {
-                    MessageBox.Show("Please fill out the required fields!");
+                    MessageBox.Show("Please fill out the required fields correctly!");
                 }
                 else // If the fields are correctly filled out
                 {
-                    if(emailField.Text == string.Empty) // Use the User-constructor without mail if the mail field is empty
+                    buffer = null;
+
+                    if (SSNIsUnique(ref buffer))
                     {
-                        try
+                        if (emailField.Text == string.Empty) // Use the User-constructor without mail if the mail field is empty
                         {
-                            temp = new User(
-                                userNameField.Text.Substring(0,  userNameField.Text.IndexOf(" ")), // Gets the first name 
-                                userNameField.Text.Substring(userNameField.Text.IndexOf(" ") + 1), // Gets the last name
-                                scNumberField.Text); // Gets Social Security Number
+                            try
+                            {
+                                temp = new User(
+                                    userNameField.Text.Substring(0, userNameField.Text.IndexOf(" ")), // Gets the first name 
+                                    userNameField.Text.Substring(userNameField.Text.IndexOf(" ") + 1), // Gets the last name
+                                    SSNumberField.Text, passwordField.Text); // Gets Social Security Number
+                            }
+
+                            catch
+                            {
+                                MessageBox.Show("An error occured, please use the following format: 'First name, Last name'");
+                                return;
+                            }
+
+                            MessageBox.Show(temp.FirstName + " " + temp.LastName); // Debug
+                            userContext = temp;
+
+                        }
+                        else // if the mail field was filled, use the mail constructor
+                        {
+                            try
+                            {
+                                temp = new User(
+                                    userNameField.Text.Substring(0, userNameField.Text.IndexOf(" ")), // Gets the first name
+                                    userNameField.Text.Substring(userNameField.Text.IndexOf(" ") + 1), // Gets the last name
+                                    emailField.Text, // Gets email
+                                    SSNumberField.Text, passwordField.Text); // Gets Social Security Number
+                            }
+
+                            catch
+                            {
+                                MessageBox.Show("An error occured, please use the following format: 'First name, Last name'");
+                                return;
+                            }
+
+                            MessageBox.Show(temp.FirstName + " " + temp.LastName + "\n" + emailField.Text); // Debug
+                            userContext = temp;
                         }
 
-                        catch
-                        {
-                            MessageBox.Show("An error occured, please use the following format: 'First name, Last name'");
-                            return;
-                        }
+                        string xmlInfo = userContext.CreateXmlObject(); // Create an xml object and send it to server
+                        byte[] stringBuffer = Encoding.UTF8.GetBytes(xmlInfo);
+                        buffer = new byte[stringBuffer.Length + 1];
+                        stringBuffer.CopyTo(buffer, 1);
+                        buffer[0] = 1;
 
-                        MessageBox.Show(temp.FirstName + " " + temp.LastName); // Debug
-                        userContext = temp;
-                        
+                        clientData.SendData(buffer);
+
+                        Hide();
+                        new LoginView(ref userContext, ref clientData).Show();
                     }
-                    else // if the mail field was filled, use the mail constructor
+                    else
                     {
-                        try
-                        {
-                            temp = new User(
-                                userNameField.Text.Substring(0, userNameField.Text.IndexOf(" ")), // Gets the first name
-                                userNameField.Text.Substring(userNameField.Text.IndexOf(" ") + 1), // Gets the last name
-                                emailField.Text, // Gets email
-                                scNumberField.Text); // Gets Social Security Number
-                        }
-
-                        catch
-                        {
-                            MessageBox.Show("An error occured, please use the following format: 'First name, Last name'");
-                            return;
-                        }
-
-                        MessageBox.Show(temp.FirstName + " " + temp.LastName + "\n" + emailField.Text); // Debug
-                        userContext = temp;
+                        MessageBox.Show("That Social Security Number is already taken.");
+                        return;
                     }
-
-                    string info = userContext.CreateXmlObject();
-                    byte[] stringBuffer = Encoding.UTF8.GetBytes(info);
-                    byte[] buffer = new byte[stringBuffer.Length + 1];
-                    stringBuffer.CopyTo(buffer, 1);
-                    buffer[0] = 1;
-
-                    clientData.SendData(buffer);
-
-                    Hide();
-                    new LoginView(ref userContext, ref clientData).Show();
-                }
-
-                    
+                }       
             };
 
             // Lambdas for placeholders
-            scNumberField.Click += (x, y) =>
+            SSNumberField.Click += (x, y) =>
             {
-                if(scNumberField.Text == "YYMMDDXXXX")
+                if(SSNumberField.Text == "YYMMDDXXXX")
                 {
-                    scNumberField.Text = "";
+                    SSNumberField.Text = "";
                 }
                 
 
             };
 
-            scNumberField.LostFocus += (x, y) =>
+            SSNumberField.LostFocus += (x, y) =>
             {
-                if(scNumberField.Text == "")
+                if(SSNumberField.Text == "")
                 {
-                    scNumberField.Text = "YYMMDDXXXX";
+                    SSNumberField.Text = "YYMMDDXXXX";
                 }
             };
 
